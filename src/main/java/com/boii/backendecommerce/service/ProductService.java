@@ -6,6 +6,6 @@ import com.boii.backendecommerce.model.Product;
 
 public interface ProductService {
 
-    public void getProductById(Long id);
-    public void createProduct();
+    Product getProductById(Long id);
+    void createProduct();
 }
