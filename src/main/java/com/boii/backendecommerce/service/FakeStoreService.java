@@ -1,13 +1,18 @@
 package com.boii.backendecommerce.service;
 
 
-import com.boii.backendecommerce.dto.FakeStoreProductResponseDto;
-import com.boii.backendecommerce.model.Category;
+import com.boii.backendecommerce.builder.ProductMapper;
+import com.boii.backendecommerce.dto.FakeStoreProductDto;
+import com.boii.backendecommerce.exceptions.InvalidProductIdException;
+import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -32,22 +37,22 @@ public class FakeStoreService implements  ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Long id) throws ProductNotFoundException {
 
         // 1. call the fake store API
-        ResponseEntity<FakeStoreProductResponseDto> response = restTemplate.
+        ResponseEntity<FakeStoreProductDto> response = restTemplate.
                 getForEntity("https://fakestoreapi.com/products/" + id,
-                        FakeStoreProductResponseDto.class); //FakeStoreResponseDTO
+                        FakeStoreProductDto.class); //FakeStoreResponseDTO
 
 
         // validations
-        if (response.getBody() == null) {
-            // Throw The exception
-            System.out.println("Product body is null");
-        }
+
 
         // 2. get the body form the response entity
-        FakeStoreProductResponseDto fakeStoreProductResponseDto = response.getBody();
+        FakeStoreProductDto fakeStoreProductResponseDto = response.getBody();
+        if(fakeStoreProductResponseDto == null) {
+            throw new ProductNotFoundException();
+        }
 
         /* 3. Map the response to our model
                 4. return the model from service layer
@@ -55,25 +60,54 @@ public class FakeStoreService implements  ProductService{
                    if in case of Model  we can do Model to DTO Conversion in controller
                   service layer actually (Check productController)
         */
-        return mapToProduct(fakeStoreProductResponseDto);
+        return ProductMapper.mapToProduct(fakeStoreProductResponseDto);
     }
 
-    private Product mapToProduct(FakeStoreProductResponseDto dto) {
-        Product product = new Product();
-        Category category = new Category();
-        category.setTitle(dto.getCategory());
 
-        product.setCategory(category);
-        product.setTittle(dto.getTitle());
-        product.setId(dto.getId());
-        product.setImageURL(dto.getImage());
-        product.setPrice(Double.valueOf(dto.getPrice()));
-        product.setDescription(dto.getDescription());
+
+    @Override
+    public Product createProduct(String title, String description, String category,
+                                 String price, String image) {
+
+        // S1. Call the fakeStore DTO object
+        FakeStoreProductDto requestBody = new FakeStoreProductDto();
+        requestBody.setTitle(title);
+        requestBody.setDescription(description);
+        requestBody.setCategory(category);
+        requestBody.setPrice(price);
+
+        // S2. Call FakeStore API
+        FakeStoreProductDto response = restTemplate.postForObject("https://fakestoreapi.com/products",
+                requestBody, FakeStoreProductDto.class);
+
+        // S3. Get ProductModel
+        Product product = ProductMapper.mapToProduct(response);
+
+        // S4.  ReturnModel
+
         return product;
+
     }
 
     @Override
-    public void createProduct() {
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products",
+                        FakeStoreProductDto[].class);
 
+        FakeStoreProductDto[] dtos = responseEntity.getBody();
+        if(dtos == null||dtos.length == 0) {
+            System.out.println("Something went wrong");
+            return new ArrayList<>();
+        }
+
+
+        //Create products
+        for(FakeStoreProductDto dto : dtos) {
+            products.add(ProductMapper.mapToProduct(dto));
+        }
+
+        return products;
     }
 }
