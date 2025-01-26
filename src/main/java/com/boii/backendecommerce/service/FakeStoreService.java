@@ -3,7 +3,6 @@ package com.boii.backendecommerce.service;
 
 import com.boii.backendecommerce.builder.ProductMapper;
 import com.boii.backendecommerce.dto.FakeStoreProductDto;
-import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import org.springframework.http.ResponseEntity;
@@ -81,11 +80,10 @@ public class FakeStoreService implements  ProductService{
                 requestBody, FakeStoreProductDto.class);
 
         // S3. Get ProductModel
-        Product product = ProductMapper.mapToProduct(response);
 
         // S4.  ReturnModel
 
-        return product;
+        return ProductMapper.mapToProduct(response);
 
     }
 

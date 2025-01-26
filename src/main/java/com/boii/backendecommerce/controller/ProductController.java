@@ -7,7 +7,6 @@ import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import com.boii.backendecommerce.service.ProductService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class ProductController {
 
 
     // This is Dependency Injection (Injecting ProductService in Controller)
-    private ProductService productService;
+    private final ProductService productService;
 
 
     public ProductController(ProductService productService) {
@@ -87,8 +86,8 @@ public class ProductController {
             InvalidProductIdException, ProductNotFoundException {
 
 
-        if(id == null){
-            throw  new InvalidProductIdException();
+        if (id == null) {
+            throw new InvalidProductIdException();
         }
 
 
@@ -99,9 +98,8 @@ public class ProductController {
         }
 
         // S2. Convert(map) model to DTO
-        ProductResponseDto response = ProductMapper.convertToProductResponseDto(product);
         // S3. return
-        return response;
+        return ProductMapper.convertToProductResponseDto(product);
 
     }
 

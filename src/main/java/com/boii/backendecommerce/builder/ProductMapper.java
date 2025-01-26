@@ -19,9 +19,7 @@ public class ProductMapper {
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());
 
-        if(product.getId()!=null){
-            dto.setId(product.getId());
-        }
+        dto.setId(product.getId());
 
         return dto;
     }
