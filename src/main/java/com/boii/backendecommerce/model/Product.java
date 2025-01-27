@@ -1,9 +1,6 @@
 package com.boii.backendecommerce.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +20,7 @@ public class Product extends BaseModel implements Serializable {
     private String description;
     private String imageURL;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(cascade = { CascadeType.PERSIST})
     private Category category;
 
 

@@ -8,14 +8,18 @@ import com.boii.backendecommerce.model.Product;
 import java.util.List;
 
 public interface ProductService {
-
     Product getProductById(Long id) throws ProductNotFoundException;
 
     Product createProduct(String title,
                           String description,
                           String category,
                           String price,
-                          String image);
+                          String imageUrl);
+
+
+
+
 
     List<Product> getAllProducts();
 }
+

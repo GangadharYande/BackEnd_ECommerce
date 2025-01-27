@@ -7,6 +7,7 @@ import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import com.boii.backendecommerce.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ public class ProductController {
     // This is Dependency Injection (Injecting ProductService in Controller)
     private final ProductService productService;
 
-
-    public ProductController(ProductService productService) {
+    // Injecting ProductService in Controller
+    public ProductController(@Qualifier("RealProductService") ProductService productService) {
         this.productService = productService;
     }
     /*
@@ -84,19 +85,15 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ProductResponseDto getProductByID(@PathVariable("id") Long id) throws
             InvalidProductIdException, ProductNotFoundException {
-
-
         if (id == null) {
             throw new InvalidProductIdException();
         }
-
 
         // S1. Call to service layer
         Product product = productService.getProductById(id);
         if (product == null) {
             throw new ProductNotFoundException();
         }
-
         // S2. Convert(map) model to DTO
         // S3. return
         return ProductMapper.convertToProductResponseDto(product);
@@ -168,6 +165,5 @@ public class ProductController {
 //    public void deleteProduct(@PathVariable("id") Long id){
 //
 //    }
-
 
 }

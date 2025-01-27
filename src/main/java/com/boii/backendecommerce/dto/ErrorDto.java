@@ -13,8 +13,8 @@ public class ErrorDto {
     private String errorCode;
 
 
-
-    public ErrorDto() {
-
+    public ErrorDto(String errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
     }
 }

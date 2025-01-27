@@ -16,7 +16,7 @@ public class ProductMapper {
         dto.setCategory(product.getCategory());
         dto.setId(product.getId());
         dto.setTittle(product.getTitle());
-        dto.setPrice(product.getPrice());
+        dto.setPrice(String.valueOf(product.getPrice()));
         dto.setDescription(product.getDescription());
 
         dto.setId(product.getId());
@@ -36,7 +36,7 @@ public class ProductMapper {
         product.setTitle(dto.getTitle());
         product.setId(dto.getId());
         product.setImageURL(dto.getImage());
-        product.setPrice(Double.valueOf(dto.getPrice()));
+        product.setPrice(Double.valueOf(String.valueOf(dto.getPrice())));
         product.setDescription(dto.getDescription());
         return product;
     }

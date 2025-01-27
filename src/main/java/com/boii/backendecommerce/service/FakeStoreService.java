@@ -24,7 +24,7 @@ import java.util.List;
  call from another server is Http
  the easiest way to use @RestTemplate (spring web dependency)
  */
-@Service // telling spring this class is special class (all special class in spring are called bean)
+@Service("FakeStoreService") // telling spring this class is special class (all special class in spring are called bean)
 public class FakeStoreService implements  ProductService{
 
 
@@ -62,18 +62,15 @@ public class FakeStoreService implements  ProductService{
         return ProductMapper.mapToProduct(fakeStoreProductResponseDto);
     }
 
-
-
     @Override
-    public Product createProduct(String title, String description, String category,
-                                 String price, String image) {
+    public Product createProduct(String title, String description, String category, String price, String imageUrl) {
 
         // S1. Call the fakeStore DTO object
         FakeStoreProductDto requestBody = new FakeStoreProductDto();
         requestBody.setTitle(title);
         requestBody.setDescription(description);
         requestBody.setCategory(category);
-        requestBody.setPrice(price);
+        requestBody.setPrice(String.valueOf(price));
 
         // S2. Call FakeStore API
         FakeStoreProductDto response = restTemplate.postForObject("https://fakestoreapi.com/products",
@@ -86,6 +83,7 @@ public class FakeStoreService implements  ProductService{
         return ProductMapper.mapToProduct(response);
 
     }
+
 
     @Override
     public List<Product> getAllProducts() {
