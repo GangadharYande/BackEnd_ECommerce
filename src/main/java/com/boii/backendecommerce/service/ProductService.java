@@ -21,5 +21,10 @@ public interface ProductService {
 
 
     List<Product> getAllProducts();
+
+    List<Product> findProductsByTitle(String searchText);
+
+    Product getProductByIdAndTitle(Long id)
+            throws ProductNotFoundException;
 }
 

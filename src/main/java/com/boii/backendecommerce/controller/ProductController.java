@@ -6,8 +6,11 @@ import com.boii.backendecommerce.dto.ProductResponseDto;
 import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
+import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,10 +32,12 @@ public class ProductController {
 
     // This is Dependency Injection (Injecting ProductService in Controller)
     private final ProductService productService;
+    private final ProductRepository productRepository;
 
     // Injecting ProductService in Controller
-    public ProductController(@Qualifier("RealProductService") ProductService productService) {
+    public ProductController(@Qualifier("RealProductService") ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
+        this.productRepository = productRepository;
     }
     /*
      * ProductController productService = new ProductController(productService);
@@ -100,6 +105,19 @@ public class ProductController {
 
     }
 
+    @GetMapping("/product/{id}/{title}")
+    public Product getProductByIdAndTitle(@PathVariable("id") Long  id,@RequestParam  String title) throws ProductNotFoundException {
+        if (id == null) {
+            throw new ProductNotFoundException();
+        }
+        return productRepository.getProductByIdAndTitle(id, title);
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String searchText) {
+        List<Product> products = productService.findProductsByTitle(searchText);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
 
 

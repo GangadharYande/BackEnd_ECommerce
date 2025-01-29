@@ -1,9 +1,6 @@
 package com.boii.backendecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +15,20 @@ import java.util.Date;
 public class BaseModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // AutoIncrement
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncrement
     private Long id;
     private Date createdAt;
     private Date lastUpdatedAt;
     private boolean is_Deleted;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        lastUpdatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdatedAt = new Date();
+    }
 }

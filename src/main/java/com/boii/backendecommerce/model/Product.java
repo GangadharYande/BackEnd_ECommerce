@@ -20,7 +20,8 @@ public class Product extends BaseModel implements Serializable {
     private String description;
     private String imageURL;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST})
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable=false)
     private Category category;
 
 

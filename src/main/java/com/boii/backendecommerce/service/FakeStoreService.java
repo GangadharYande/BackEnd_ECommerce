@@ -106,4 +106,14 @@ public class FakeStoreService implements  ProductService{
 
         return products;
     }
+
+    @Override
+    public List<Product> findProductsByTitle(String searchText) {
+        return List.of();
+    }
+
+    @Override
+    public Product getProductByIdAndTitle(Long id) throws ProductNotFoundException {
+        return null;
+    }
 }

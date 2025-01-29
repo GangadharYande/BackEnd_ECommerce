@@ -4,6 +4,7 @@ import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
 import com.boii.backendecommerce.repository.ProductRepository;
+import com.boii.backendecommerce.repository.projections.ProductProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,25 @@ public class RealProductService implements ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
+
+    @Override
+    public List<Product> findProductsByTitle(String searchText) {
+        return productRepository.findProductsByTitleContaining(searchText);
+    }
+
+//    Representing Inheritance, Cardinalities, IDs, JPA Queries, Custom Queries 1.15
+
+
+    @Override
+    public Product getProductByIdAndTitle(Long id)
+            throws ProductNotFoundException {
+        Product product = productRepository.getProductFromIdAndTitle(id);
+        ProductProjection productProjection = productRepository.getTitleAndPriceProductFromId(id);
+        return product;
+    }
+
+
+
 
 }
 
