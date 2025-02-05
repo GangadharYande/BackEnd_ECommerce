@@ -7,6 +7,7 @@ import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import com.boii.backendecommerce.repository.ProductRepository;
+import com.boii.backendecommerce.service.CategoryService;
 import com.boii.backendecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,18 @@ public class ProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
 
+    private final CategoryService categoryService;
+
     // Injecting ProductService in Controller
-    public ProductController(@Qualifier("RealProductService") ProductService productService, ProductRepository productRepository) {
+//    public ProductController(@Qualifier("RealProductService") ProductService productService, ProductRepository productRepository) {
+    public ProductController(@Qualifier("FakeStoreService")
+                             ProductService productService,
+                             ProductRepository productRepository,
+                             CategoryService categoryService) {
+
         this.productService = productService;
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
     /*
      * ProductController productService = new ProductController(productService);
@@ -118,6 +127,12 @@ public class ProductController {
         List<Product> products = productService.findProductsByTitle(searchText);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+
+
+
+
+
 
 
 

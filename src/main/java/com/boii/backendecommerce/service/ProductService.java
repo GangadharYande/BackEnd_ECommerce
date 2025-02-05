@@ -3,6 +3,7 @@ package com.boii.backendecommerce.service;
 // this will only have function declaration . not the body
 
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
+import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
 
 import java.util.List;
@@ -26,5 +27,7 @@ public interface ProductService {
 
     Product getProductByIdAndTitle(Long id)
             throws ProductNotFoundException;
+
+    List<Category> getAllCategories();
 }
 

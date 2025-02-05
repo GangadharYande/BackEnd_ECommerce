@@ -74,7 +74,10 @@ public class RealProductService implements ProductService {
         return product;
     }
 
-
+    @Override
+    public List<Category> getAllCategories() {
+        return List.of();
+    }
 
 
 }

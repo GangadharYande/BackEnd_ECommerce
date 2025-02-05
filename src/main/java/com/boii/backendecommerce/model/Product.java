@@ -1,7 +1,6 @@
 package com.boii.backendecommerce.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

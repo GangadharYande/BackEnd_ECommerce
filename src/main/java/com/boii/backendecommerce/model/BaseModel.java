@@ -19,7 +19,7 @@ public class BaseModel {
     private Long id;
     private Date createdAt;
     private Date lastUpdatedAt;
-    private boolean is_Deleted;
+    private boolean is_Deleted = false;
 
     @PrePersist
     protected void onCreate() {

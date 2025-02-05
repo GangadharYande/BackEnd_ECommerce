@@ -1,10 +1,7 @@
 package com.boii.backendecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +20,7 @@ public class Category extends BaseModel implements Serializable {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category",cascade = {CascadeType.REMOVE})
+    @OneToMany(mappedBy = "category",cascade = {CascadeType.REMOVE},fetch = FetchType.LAZY)
     List<Product> product;
 
     /*

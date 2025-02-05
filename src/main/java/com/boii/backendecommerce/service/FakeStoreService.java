@@ -2,8 +2,10 @@ package com.boii.backendecommerce.service;
 
 
 import com.boii.backendecommerce.builder.ProductMapper;
+import com.boii.backendecommerce.dto.CategoryResponseDto;
 import com.boii.backendecommerce.dto.FakeStoreProductDto;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
+import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -107,6 +109,18 @@ public class FakeStoreService implements  ProductService{
         return products;
     }
 
+
+    @Override
+    public  List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        ResponseEntity<CategoryResponseDto> responseEntity = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products/categories",
+                CategoryResponseDto.class);
+
+        return categories;
+    }
+
+
     @Override
     public List<Product> findProductsByTitle(String searchText) {
         return List.of();
@@ -116,4 +130,60 @@ public class FakeStoreService implements  ProductService{
     public Product getProductByIdAndTitle(Long id) throws ProductNotFoundException {
         return null;
     }
+
+
+
+
+        /* Implement below methods */
+
+//    //Limit results "https://fakestoreapi.com/products?limit=5"
+//    @GetMapping("/products/{limit}")
+//    public List<Product> getProductsInLimit(Long limit) {
+//        return null;
+//    }
+//
+//
+//    // Sort results https://fakestoreapi.com/products?sort=desc
+//    @GetMapping("/product/sorted")
+//    public ResponseEntity<List<Product>> getSortedProducts() {
+//        /*
+//            List<Product> products = productService.fetchAndSortProducts();
+//            return new ResponseEntity<>(products, HttpStatus.OK);
+//       */
+//        return null;
+//    }
+//
+//
+//    // Get all categories
+
+//
+//
+//    // Get products in a specific category
+//    @GetMapping("/category/{category}")
+//    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
+//        /*
+//        List<Product> products = productService.fetchProductsByCategory(category);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//        */
+//        return null;
+//    }
+//
+//
+//    //Update a product
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+//        /*
+//        Product product = productService.updateProduct(id, updatedProduct);
+//        return new ResponseEntity<>(product, HttpStatus.OK);
+//
+//         */
+//        return null;
+//    }
+//
+//
+//    //Delete a product
+//    @DeleteMapping("/product/{id}")
+//    public void deleteProduct(@PathVariable("id") Long id){
+//
+//    }
 }

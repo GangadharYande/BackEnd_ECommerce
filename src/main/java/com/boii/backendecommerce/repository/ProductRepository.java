@@ -32,7 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p.id, p.title, p.price from Product p where p.id =:id")
     ProductProjection getTitleAndPriceProductFromId(@Param("id") Long id);
 
-    @Query("SELECT p.id,  p.price from Product p where p.title =:title")
+    @Query("SELECT p.id,  p.price as price from Product p where p.title =:title")
     List<ProductProjection> getTitleAndPriceProductFromTitle(@Param("title") String title);
 
 
