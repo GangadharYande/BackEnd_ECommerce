@@ -115,7 +115,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}/{title}")
-    public Product getProductByIdAndTitle(@PathVariable("id") Long  id,@RequestParam  String title) throws ProductNotFoundException {
+    public Product getProductByIdAndTitle(@PathVariable("id") Long id, @RequestParam String title) throws ProductNotFoundException {
         if (id == null) {
             throw new ProductNotFoundException();
         }

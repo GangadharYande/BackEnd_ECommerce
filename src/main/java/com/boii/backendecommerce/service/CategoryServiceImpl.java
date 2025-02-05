@@ -36,21 +36,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponseDto> getAllCategories(){
-        String url="https://fakestoreapi.com/products/categories";
-
+    public List<CategoryResponseDto> getAllCategories() {
+        String url = "https://fakestoreapi.com/products/categories";
         RestTemplate restTemplate = new RestTemplate();
         List<String> categories = restTemplate.getForObject(url, List.class);
 
-        List<CategoryResponseDto> categoryResponseList = new ArrayList<>();
-
-        for(String category : categories){
-            CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
-            categoryResponseDto.setTitle(category);
-            categoryResponseList.add(categoryResponseDto);
+        List<CategoryResponseDto> categoryDTOList = new ArrayList<>();
+        for (String category : categories) {
+            CategoryResponseDto categoryDTO = new CategoryResponseDto();
+            categoryDTO.setTitle(category);
+            categoryDTOList.add(categoryDTO);
         }
-        return categoryResponseList;
+
+        return categoryDTOList;
     }
+
 
     @Override
     public List<FakeStoreProductDto> getProductsByCategory(String category) {

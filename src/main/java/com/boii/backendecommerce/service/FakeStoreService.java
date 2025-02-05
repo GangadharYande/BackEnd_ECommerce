@@ -121,6 +121,7 @@ public class FakeStoreService implements  ProductService{
     }
 
 
+
     @Override
     public List<Product> findProductsByTitle(String searchText) {
         return List.of();
@@ -158,15 +159,7 @@ public class FakeStoreService implements  ProductService{
 
 //
 //
-//    // Get products in a specific category
-//    @GetMapping("/category/{category}")
-//    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
-//        /*
-//        List<Product> products = productService.fetchProductsByCategory(category);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//        */
-//        return null;
-//    }
+
 //
 //
 //    //Update a product

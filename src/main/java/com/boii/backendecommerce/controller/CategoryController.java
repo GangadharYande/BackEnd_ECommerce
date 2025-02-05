@@ -3,7 +3,6 @@ package com.boii.backendecommerce.controller;
 import com.boii.backendecommerce.dto.CategoryResponseDto;
 import com.boii.backendecommerce.dto.FakeStoreProductDto;
 import com.boii.backendecommerce.exceptions.NoCategoryFoundException;
-import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.service.CategoryService;
 import com.boii.backendecommerce.service.ProductService;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @RestController
 public class CategoryController {
-
 
 
     private final ProductService productService;
