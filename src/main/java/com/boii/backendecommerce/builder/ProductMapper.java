@@ -1,7 +1,7 @@
 package com.boii.backendecommerce.builder;
 
 import com.boii.backendecommerce.dto.FakeStoreProductDto;
-import com.boii.backendecommerce.dto.ProductResponseDto;
+import com.boii.backendecommerce.dto.RealProductResponseDto;
 import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
 
@@ -11,8 +11,8 @@ public class ProductMapper {
       @param product
       @return
     */
-    public static ProductResponseDto convertToProductResponseDto(Product product) {
-        ProductResponseDto dto = new ProductResponseDto();
+    public static RealProductResponseDto convertToProductResponseDto(Product product) {
+        RealProductResponseDto dto = new RealProductResponseDto();
         dto.setCategory(product.getCategory());
         dto.setId(product.getId());
         dto.setTittle(product.getTitle());

@@ -2,7 +2,7 @@ package com.boii.backendecommerce.controller;
 
 import com.boii.backendecommerce.builder.ProductMapper;
 import com.boii.backendecommerce.dto.CreateProductRequestDto;
-import com.boii.backendecommerce.dto.ProductResponseDto;
+import com.boii.backendecommerce.dto.RealProductResponseDto;
 import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
@@ -59,7 +59,7 @@ public class ProductController {
 
     // Create a Product
     @PostMapping("/product")
-    public ProductResponseDto createProduct(@RequestBody CreateProductRequestDto dto) {
+    public RealProductResponseDto createProduct(@RequestBody CreateProductRequestDto dto) {
         // S1 validate the request --check and add validation of your own
 
 
@@ -78,13 +78,13 @@ public class ProductController {
 
     // Get all products
     @GetMapping("/products")
-    public List<ProductResponseDto> getAllProducts() throws ProductNotFoundException {
+    public List<RealProductResponseDto> getAllProducts() throws ProductNotFoundException {
         List<Product> productList = productService.getAllProducts();
         if (productList.isEmpty() || productList.size() == 0) {
             throw new ProductNotFoundException();
         }
 
-        List<ProductResponseDto> response = new ArrayList<>();
+        List<RealProductResponseDto> response = new ArrayList<>();
         for (Product p : productList) {
             response.add(ProductMapper.convertToProductResponseDto(p));
         }
@@ -97,7 +97,7 @@ public class ProductController {
 
     // Get a single product
     @GetMapping("/product/{id}")
-    public ProductResponseDto getProductByID(@PathVariable("id") Long id) throws
+    public RealProductResponseDto getProductByID(@PathVariable("id") Long id) throws
             InvalidProductIdException, ProductNotFoundException {
         if (id == null) {
             throw new InvalidProductIdException();
