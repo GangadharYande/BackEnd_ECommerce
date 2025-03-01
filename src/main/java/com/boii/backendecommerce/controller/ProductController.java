@@ -177,47 +177,4 @@ public class ProductController {
     }
 
 
-
-
-
-
-
-
-
-    /* Implement below methods */
-
-//    //Limit results "https://fakestoreapi.com/products?limit=5"
-//    @GetMapping("/products/{limit}")
-//    public List<Product> getProductsInLimit(Long limit) {
-//        return null;
-//    }
-//
-//
-//    // Sort results https://fakestoreapi.com/products?sort=desc
-//    @GetMapping("/product/sorted")
-//    public ResponseEntity<List<Product>> getSortedProducts() {
-//        /*
-//            List<Product> products = productService.fetchAndSortProducts();
-//            return new ResponseEntity<>(products, HttpStatus.OK);
-//       */
-//        return null;
-//    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    //Delete a product
-//    @DeleteMapping("/product/{id}")
-//    public void deleteProduct(@PathVariable("id") Long id){
-//
-//    }
-
 }
