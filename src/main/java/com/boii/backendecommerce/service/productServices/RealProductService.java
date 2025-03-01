@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -98,9 +99,14 @@ public class RealProductService implements ProductService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         // this will return me page<t> where T is Model
         Page<Product> productPage = productRepository.findAll(pageable);
-        productPage.getTotalPages();
-        productPage.getContent();
-        productPage.getTotalElements();
+
+        return productPage;
+    }
+
+    @Override
+    public Page<Product> getPagedProductSortByName(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize , Sort.Direction.ASC, "title");
+        Page<Product> productPage = productRepository.findAll(pageable);
         return productPage;
     }
 

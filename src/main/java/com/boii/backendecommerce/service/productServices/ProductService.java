@@ -32,5 +32,7 @@ public interface ProductService {
     public List<Category> getAllCategories();
 
     public Page<Product> getPaginatedProducts(int pageNo, int pageSize);
+
+    public Page<Product> getPagedProductSortByName(int pageNo ,int pageSize);
 }
 

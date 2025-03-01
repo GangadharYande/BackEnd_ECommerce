@@ -130,6 +130,12 @@ public class FakeStoreProductService implements ProductService {
         return null;
     }
 
+    @Override
+    public Page<Product> getPagedProductSortByName(int pageNo, int pageSize) {
+        // Not Supported fakestore API Currently
+        return null;
+    }
+
 
     @Override
     public List<Product> findProductsByTitle(String searchText) {

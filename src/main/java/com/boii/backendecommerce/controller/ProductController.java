@@ -10,8 +10,10 @@ import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.service.category.CategoryService;
 import com.boii.backendecommerce.service.productServices.ProductService;
 import com.boii.backendecommerce.service.productServices.RealProductService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -137,16 +139,25 @@ public class ProductController {
 
 
     @GetMapping("/products/{page}/{size}")
-    public ResponseEntity<List<Product>> getPaginationProducts(@PathVariable("page") Integer page,
-                                                               @PathVariable("size") Integer size) {
+    public ResponseEntity<Page<Product>> getPaginationProducts(@PathVariable("page") Integer pageNo,
+                                                               @PathVariable("size") Integer pageSize) {
 
-        if(size<5){
-            size =10;
-        }
-        Page<Product> ListedProduct =productService.getPaginatedProducts(page, size);
-        System.out.println("Recived products " +ListedProduct);
-        return  ResponseEntity.ok(ListedProduct.getContent()); // Status Http =ok
+
+        Page<Product> ListedProduct =productService.getPaginatedProducts(pageNo, pageSize);
+        System.out.println("Received products " + ListedProduct);
+        return  ResponseEntity.ok(ListedProduct); // Status Http =ok
     }
+
+
+    @GetMapping("/products/sortbyName/{pageNo}/{pageSize}")
+    public ResponseEntity<Page<Product>> getPagedProductSortByName(@PathVariable("pageNo") Integer pageNo,
+                                                                   @PathVariable("pageSize") Integer pageSize){
+        Page<Product> ListedProduct =productService.getPaginatedProducts(pageNo, pageSize);
+        System.out.println("Received products " + ListedProduct);
+        return  ResponseEntity.ok(ListedProduct); // Status Http =ok
+
+    }
+
 
 
 
