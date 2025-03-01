@@ -8,13 +8,11 @@ import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +141,21 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
+    public Product updateProduct(Long id, Product product) throws ProductNotFoundException {
+        return null;
+    }
+
+    @Override
+    public void softDeleteProduct(Long id) throws ProductNotFoundException {
+
+    }
+
+    @Override
+    public void hardDeleteProduct(Long id) throws ProductNotFoundException {
+
+    }
+
+    @Override
     public Product getProductByIdAndTitle(Long id) throws ProductNotFoundException {
         return null;
     }
@@ -170,7 +183,6 @@ public class FakeStoreProductService implements ProductService {
 //    }
 //
 //
-//    // Get all categories
 
 //
 //

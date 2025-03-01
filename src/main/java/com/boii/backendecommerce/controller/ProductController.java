@@ -10,10 +10,8 @@ import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.service.category.CategoryService;
 import com.boii.backendecommerce.service.productServices.ProductService;
 import com.boii.backendecommerce.service.productServices.RealProductService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -158,6 +156,26 @@ public class ProductController {
 
     }
 
+    @PutMapping("/product/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) throws ProductNotFoundException {
+
+        Product product = productService.updateProduct(id, updatedProduct);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/product/soft/{id}")
+    public ResponseEntity<String> softDeleteProduct(@PathVariable Long id) throws ProductNotFoundException {
+        productService.softDeleteProduct(id);
+        return ResponseEntity.ok("Product marked as deleted");
+    }
+
+    @DeleteMapping("/product/hard/{id}")
+    public ResponseEntity<String> harddeleteProduct(@PathVariable Long id) throws ProductNotFoundException {
+        productService.hardDeleteProduct(id);
+        return ResponseEntity.ok("Product deleted successfully");
+    }
+
 
 
 
@@ -186,39 +204,14 @@ public class ProductController {
 //    }
 //
 //
-//    // Get all categories
-//    @GetMapping("categories")
-//    public ResponseEntity<List<String>> getAllCategories() {
-//        /*
-//            List<String> categories = productService.fetchCategories();
-//            return new ResponseEntity<>(categories, HttpStatus.OK);
-//        */
-//
-//        return null;
-//    }
 //
 //
-//    // Get products in a specific category
-//    @GetMapping("/category/{category}")
-//    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
-//        /*
-//        List<Product> products = productService.fetchProductsByCategory(category);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//        */
-//        return null;
-//    }
 //
 //
-//    //Update a product
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
-//        /*
-//        Product product = productService.updateProduct(id, updatedProduct);
-//        return new ResponseEntity<>(product, HttpStatus.OK);
 //
-//         */
-//        return null;
-//    }
+//
+//
+//
 //
 //
 //    //Delete a product

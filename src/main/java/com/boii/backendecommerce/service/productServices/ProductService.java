@@ -26,6 +26,12 @@ public interface ProductService {
 
     public List<Product> findProductsByTitle(String searchText);
 
+    public Product updateProduct(Long id, Product product) throws ProductNotFoundException;
+
+    public void softDeleteProduct(Long id) throws ProductNotFoundException;
+
+    public void hardDeleteProduct(Long id) throws ProductNotFoundException;
+
     public Product getProductByIdAndTitle(Long id)
             throws ProductNotFoundException;
 
@@ -34,5 +40,7 @@ public interface ProductService {
     public Page<Product> getPaginatedProducts(int pageNo, int pageSize);
 
     public Page<Product> getPagedProductSortByName(int pageNo ,int pageSize);
+
+
 }
 

@@ -8,6 +8,7 @@ import com.boii.backendecommerce.repository.CategoryRepository;
 import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.repository.projections.ProductProjection;
 import com.boii.backendecommerce.service.category.CategoryService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +78,50 @@ public class RealProductService implements ProductService {
     @Override
     public List<Product> findProductsByTitle(String searchText) {
         return productRepository.findProductsByTitleContaining(searchText);
+    }
+
+    @Transactional
+    public Product updateProduct(Long id, Product product) throws ProductNotFoundException {
+        Product oldProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        // Update only if new values are provided
+        if (product.getTitle() != null) oldProduct.setTitle(product.getTitle());
+        if (product.getDescription() != null) oldProduct.setDescription(product.getDescription());
+        if (product.getCategory() != null) oldProduct.setCategory(product.getCategory());
+        if (product.getPrice() != null) oldProduct.setPrice(product.getPrice());
+        if (product.getImageURL() != null) oldProduct.setImageURL(product.getImageURL());
+
+        // Convert LocalDateTime to Date
+        oldProduct.setLastUpdatedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+
+        oldProduct.set_Deleted(product.is_Deleted());
+
+        Product updatedProduct = productRepository.save(oldProduct);
+        System.out.println("Product updated in Database: " + updatedProduct);
+
+        return updatedProduct;
+    }
+
+
+
+    @Override
+    public void softDeleteProduct(Long id) throws ProductNotFoundException {
+            Product product = productRepository.findById(id)
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
+
+            product.set_Deleted(true);
+            productRepository.save(product);
+            System.out.println("Product marked as deleted: " + id);
+    }
+
+    @Transactional
+    public void hardDeleteProduct(Long id) throws ProductNotFoundException {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
+
+        productRepository.delete(product);
+        System.out.println("Product deleted from database: " + id);
     }
 
 //    Representing Inheritance, Cardinalities, IDs, JPA Queries, Custom Queries 1.15

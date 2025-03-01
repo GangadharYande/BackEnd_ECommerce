@@ -1,7 +1,5 @@
 package com.boii.backendecommerce.dto;
 
-import com.boii.backendecommerce.model.Category;
-import com.boii.backendecommerce.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 

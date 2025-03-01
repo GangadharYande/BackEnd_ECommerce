@@ -7,18 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product save(Product product); // create
 
     List<Product> findAll();
 
-    List<Product> findByCategory(Category category);
-
     Product getProductByIdAndTitle(Long id, String title);
-
 
     // Hibernate query language  example .
     // pros : 1.Flexibility 2.Visibility of Query  3. Query is DB independent
@@ -34,6 +31,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p.id,  p.price as price from Product p where p.title =:title")
     List<ProductProjection> getTitleAndPriceProductFromTitle(@Param("title") String title);
+
+    @Query("SELECT p FROM Product p WHERE p.is_Deleted = false")
+    List<Product> findBy_DeletedFalse();
+
+    @Query("SELECT p FROM Product p WHERE p.id = :id AND p.is_Deleted = false")
+    Optional<Product> findByIdAnd_DeletedFalse(@Param("id") Long id);
+
+
+    @Query("SELECT p.id FROM Product p WHERE p.is_Deleted = false")
+    List<Long> findActiveProductIds();
 
     /*
       Pagination Way 1
