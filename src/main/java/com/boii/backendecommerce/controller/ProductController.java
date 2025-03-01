@@ -7,9 +7,11 @@ import com.boii.backendecommerce.exceptions.InvalidProductIdException;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Product;
 import com.boii.backendecommerce.repository.ProductRepository;
-import com.boii.backendecommerce.service.CategoryService;
-import com.boii.backendecommerce.service.ProductService;
+import com.boii.backendecommerce.service.category.CategoryService;
+import com.boii.backendecommerce.service.productServices.ProductService;
+import com.boii.backendecommerce.service.productServices.RealProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +38,22 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     private final CategoryService categoryService;
+    private final RealProductService realProductService;
 
     // Injecting ProductService in Controller
-//    public ProductController(@Qualifier("RealProductService") ProductService productService, ProductRepository productRepository) {
-    public ProductController(@Qualifier("FakeStoreService")
-                             ProductService productService,
-                             ProductRepository productRepository,
-                             CategoryService categoryService) {
+    public ProductController(@Qualifier("RealProductService")
+                                                          ProductService productService,
+                                                          ProductRepository productRepository,
+                                                          CategoryService categoryService, RealProductService realProductService) {
+//    public ProductController(@Qualifier("FakeStoreService")
+//                             ProductService productService,
+//                             ProductRepository productRepository,
+//                             CategoryService categoryService, RealProductService realProductService) {
 
         this.productService = productService;
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.realProductService = realProductService;
     }
     /*
      * ProductController productService = new ProductController(productService);
@@ -129,7 +136,17 @@ public class ProductController {
     }
 
 
+    @GetMapping("/products/{page}/{size}")
+    public ResponseEntity<List<Product>> getPaginationProducts(@PathVariable("page") Integer page,
+                                                               @PathVariable("size") Integer size) {
 
+        if(size<5){
+            size =10;
+        }
+        Page<Product> ListedProduct =productService.getPaginatedProducts(page, size);
+        System.out.println("Recived products " +ListedProduct);
+        return  ResponseEntity.ok(ListedProduct.getContent()); // Status Http =ok
+    }
 
 
 

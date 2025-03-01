@@ -35,6 +35,20 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p.id,  p.price as price from Product p where p.title =:title")
     List<ProductProjection> getTitleAndPriceProductFromTitle(@Param("title") String title);
 
+    /*
+      Pagination Way 1
+      - Create  own HQL query which supports Pagination
+      Pagination Way 2
+      - Make use of existing Library
+      - this already supported
+      Page<T> findAll(Pageable pageable);
+      by Jpa Repository
+
+    * */
+
+
+
+
 
     Product findProductById(Long id);
 

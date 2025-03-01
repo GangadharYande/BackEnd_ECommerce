@@ -1,4 +1,4 @@
-package com.boii.backendecommerce.service;
+package com.boii.backendecommerce.service.productServices;
 
 
 import com.boii.backendecommerce.builder.ProductMapper;
@@ -7,11 +7,14 @@ import com.boii.backendecommerce.dto.FakeStoreProductDto;
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +30,12 @@ import java.util.List;
  the easiest way to use @RestTemplate (spring web dependency)
  */
 @Service("FakeStoreService") // telling spring this class is special class (all special class in spring are called bean)
-public class FakeStoreService implements  ProductService{
+public class FakeStoreProductService implements ProductService {
 
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    public FakeStoreService(RestTemplate restTemplate, StandardServletMultipartResolver standardServletMultipartResolver) { // No bean Error so created appConfig class and @Bean added
+    public FakeStoreProductService(RestTemplate restTemplate, StandardServletMultipartResolver standardServletMultipartResolver) { // No bean Error so created appConfig class and @Bean added
         this.restTemplate = restTemplate;
 
     }
@@ -120,6 +123,12 @@ public class FakeStoreService implements  ProductService{
         return categories;
     }
 
+    @Override
+    public Page<Product> getPaginatedProducts(int pageNo, int pageSize) {
+
+        // Not Supported fakestore API Currently
+        return null;
+    }
 
 
     @Override

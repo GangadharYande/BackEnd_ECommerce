@@ -1,27 +1,39 @@
-package com.boii.backendecommerce.service;
+package com.boii.backendecommerce.service.productServices;
+
 
 import com.boii.backendecommerce.exceptions.ProductNotFoundException;
 import com.boii.backendecommerce.model.Category;
 import com.boii.backendecommerce.model.Product;
+import com.boii.backendecommerce.repository.CategoryRepository;
 import com.boii.backendecommerce.repository.ProductRepository;
 import com.boii.backendecommerce.repository.projections.ProductProjection;
+import com.boii.backendecommerce.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
 
 @Service("RealProductService")
 public class RealProductService implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
+
 
     // Injecting Dependencies
     @Autowired
-    public RealProductService(ProductRepository productRepository, CategoryService categoryService) {
+    public RealProductService(ProductRepository productRepository,
+                              CategoryService categoryService,
+                              CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -76,7 +88,20 @@ public class RealProductService implements ProductService {
 
     @Override
     public List<Category> getAllCategories() {
-        return List.of();
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public Page<Product> getPaginatedProducts(int pageNo, int pageSize) {
+
+        // findAll(Pageable pageable);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        // this will return me page<t> where T is Model
+        Page<Product> productPage = productRepository.findAll(pageable);
+        productPage.getTotalPages();
+        productPage.getContent();
+        productPage.getTotalElements();
+        return productPage;
     }
 
 

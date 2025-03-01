@@ -1,5 +1,7 @@
 package com.boii.backendecommerce.dto;
 
+import com.boii.backendecommerce.model.Category;
+import com.boii.backendecommerce.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +11,11 @@ public class CreateProductRequestDto {
 
 
 
-    private String title;
-    private String price;
+    private  String title;
+    private  String  price;
     private String category;
-    private String description;
-    private String image;
+    private  String description;
+    private  String image;
 
 
 

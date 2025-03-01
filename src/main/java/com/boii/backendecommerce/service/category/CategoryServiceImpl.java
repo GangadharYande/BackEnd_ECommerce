@@ -1,4 +1,4 @@
-package com.boii.backendecommerce.service;
+package com.boii.backendecommerce.service.category;
 
 import com.boii.backendecommerce.dto.CategoryResponseDto;
 import com.boii.backendecommerce.dto.FakeStoreProductDto;

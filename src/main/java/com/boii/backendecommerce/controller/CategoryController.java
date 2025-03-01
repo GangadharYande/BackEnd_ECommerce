@@ -4,8 +4,8 @@ import com.boii.backendecommerce.dto.CategoryResponseDto;
 import com.boii.backendecommerce.dto.FakeStoreProductDto;
 import com.boii.backendecommerce.exceptions.NoCategoryFoundException;
 import com.boii.backendecommerce.repository.ProductRepository;
-import com.boii.backendecommerce.service.CategoryService;
-import com.boii.backendecommerce.service.ProductService;
+import com.boii.backendecommerce.service.category.CategoryService;
+import com.boii.backendecommerce.service.productServices.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ public class CategoryController {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public CategoryController(@Qualifier("FakeStoreService")
+    public CategoryController(@Qualifier("FakeStoreService") //RealProductService or FakeStoreService
                               ProductService productService,
                               ProductRepository productRepository,
                               CategoryService categoryService) {

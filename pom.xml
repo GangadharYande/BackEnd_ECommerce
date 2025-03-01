@@ -11,11 +11,14 @@
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.yash.scaler</groupId>
-    <artifactId>ProductService8Aug</artifactId>
+    <groupId>com.boii.scaler</groupId>
+    <artifactId>ProductService</artifactId>
+    <!--    war file generator  -->
+    <packaging>war</packaging>
+    <!--    war file generator over-->
     <version>0.0.1-SNAPSHOT</version>
-    <name>ProductService8Aug</name>
-    <description>ProductService8Aug</description>
+    <name>ProductService</name>
+    <description>ProductService</description>
     <url/>
     <licenses>
         <license/>
