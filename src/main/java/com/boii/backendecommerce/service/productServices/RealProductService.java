@@ -52,7 +52,7 @@ public class RealProductService implements ProductService {
     public Product createProduct(String title, String description, String category, String price, String imageUrl) {
         // Find Category by Title, if not found create a new category
         Category categoryObj = categoryService.findByTitle(category);
-        System.out.println("Category is created "+categoryObj);
+        System.out.println("Category is created "+categoryObj.getId());
         // Create new Product
         Product newProduct = new Product();
         newProduct.setTitle(title);
@@ -66,7 +66,7 @@ public class RealProductService implements ProductService {
         newProduct.set_Deleted(false);
 
         Product returnedProduct = productRepository.save(newProduct);
-        System.out.println("Product is created  in Database" + returnedProduct);
+        System.out.println("Product is created  in Database" + returnedProduct.getTitle());
         return returnedProduct;
     }
 

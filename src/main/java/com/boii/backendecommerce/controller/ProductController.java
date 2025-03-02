@@ -11,6 +11,9 @@ import com.boii.backendecommerce.service.category.CategoryService;
 import com.boii.backendecommerce.service.productServices.ProductService;
 import com.boii.backendecommerce.service.productServices.RealProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +69,7 @@ public class ProductController {
 
     // Create a Product
     @PostMapping("/product")
+    @CachePut(value = "product",condition = "#result.id !=null",key = "#result.id" ) //Redis
     public RealProductResponseDto createProduct(@RequestBody CreateProductRequestDto dto) {
         // S1 validate the request --check and add validation of your own
 
@@ -79,7 +83,13 @@ public class ProductController {
 
         // Convert this to Dto (need to implement)
         // below is just for testing
-        return ProductMapper.convertToProductResponseDto(productResp);
+        RealProductResponseDto response =ProductMapper.convertToProductResponseDto(productResp);
+
+        System.out.println("Created product: " + response);
+        System.out.println("Product ID (used for caching): " + response.getId());
+        return response;
+
+
     }
 
 
@@ -104,6 +114,7 @@ public class ProductController {
 
     // Get a single product
     @GetMapping("/product/{id}")
+    @Cacheable(value = "product",key="#id") //redis
     public RealProductResponseDto getProductByID(@PathVariable("id") Long id) throws
             InvalidProductIdException, ProductNotFoundException {
         if (id == null) {
@@ -165,14 +176,21 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/soft/{id}")
+    @CacheEvict(value = "products", key = "#id")// redis
     public ResponseEntity<String> softDeleteProduct(@PathVariable Long id) throws ProductNotFoundException {
         productService.softDeleteProduct(id);
+
+        // Cache Debug
+        System.out.println("Deleting product ID: " + id);
         return ResponseEntity.ok("Product marked as deleted");
     }
 
     @DeleteMapping("/product/hard/{id}")
-    public ResponseEntity<String> harddeleteProduct(@PathVariable Long id) throws ProductNotFoundException {
+    @CacheEvict(value = "products", key = "#id") // redis
+    public ResponseEntity<String> hardDeleteProduct(@PathVariable Long id) throws ProductNotFoundException {
         productService.hardDeleteProduct(id);
+
+        System.out.println("Deleting product ID: " + id); // cache debug
         return ResponseEntity.ok("Product deleted successfully");
     }
 
