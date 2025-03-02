@@ -95,6 +95,7 @@ public class ProductController {
 
     // Get all products
     @GetMapping("/products")
+    @Cacheable(value = "products")
     public List<RealProductResponseDto> getAllProducts() throws ProductNotFoundException {
         List<Product> productList = productService.getAllProducts();
         if (productList.isEmpty() || productList.size() == 0) {
@@ -133,6 +134,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}/{title}")
+    @Cacheable(value = "product", key = "#id + '-' + #title")
     public Product getProductByIdAndTitle(@PathVariable("id") Long id, @RequestParam String title) throws ProductNotFoundException {
         if (id == null) {
             throw new ProductNotFoundException();
@@ -141,6 +143,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/search")
+    @Cacheable(value = "products", key = "#searchText")
     public ResponseEntity<List<Product>> searchProducts(@RequestParam String searchText) {
         List<Product> products = productService.findProductsByTitle(searchText);
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -148,6 +151,7 @@ public class ProductController {
 
 
     @GetMapping("/products/{page}/{size}")
+    @Cacheable(value = "products", key = "'page-' + #pageNo + '-size-' + #pageSize")
     public ResponseEntity<Page<Product>> getPaginationProducts(@PathVariable("page") Integer pageNo,
                                                                @PathVariable("size") Integer pageSize) {
 
@@ -159,6 +163,7 @@ public class ProductController {
 
 
     @GetMapping("/products/sortbyName/{pageNo}/{pageSize}")
+    @Cacheable(value = "products", key = "'sortedByName-page-' + #pageNo + '-size-' + #pageSize")
     public ResponseEntity<Page<Product>> getPagedProductSortByName(@PathVariable("pageNo") Integer pageNo,
                                                                    @PathVariable("pageSize") Integer pageSize){
         Page<Product> ListedProduct =productService.getPaginatedProducts(pageNo, pageSize);
@@ -168,6 +173,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
+    @CachePut(value = "product", key = "#id")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) throws ProductNotFoundException {
 
         Product product = productService.updateProduct(id, updatedProduct);

@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Category extends BaseModel implements Serializable {
+public class Category extends BaseModel  {
 
 
     private String title;
